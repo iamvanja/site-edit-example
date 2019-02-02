@@ -11,7 +11,6 @@
       return undefined
     }
   }
-
   const saveState = (state, localStorageKey) => {
     try {
       const serializedState = JSON.stringify(state)
@@ -21,9 +20,9 @@
     }
   }
 
-
-  const BASE_URL = 'http://127.0.0.1:3000/boomerang-edit'
-  // const BASE_URL = 'https://staging-my.shemedia.com/boomerang-edit'
+  const LOCAL_STORAGE_KEY = 'boomerangInjectedAds'
+  // const BASE_URL = 'http://127.0.0.1:3000/boomerang-edit'
+  const BASE_URL = 'https://staging-my.shemedia.com/boomerang-edit'
   const buttons = document.querySelectorAll('.element-selector')
   const iframe = document.getElementById('single')
   const EVENTS = {
@@ -33,7 +32,6 @@
     ALL_ITEMS_FAILED: 'ALL_ITEMS_FAILED',
     ALL_ITEMS_SAVED: 'ALL_ITEMS_SAVED'
   }
-  const LOCAL_STORAGE_KEY = 'boomerangInjectedAds'
 
   const handleSelectorClick = e => {
     const selector = e.target.innerText
@@ -41,7 +39,6 @@
     // pass isDebug parameter to inspect form state
     iframe.src = BASE_URL + '/single/?selector=' + encodeURIComponent(selector)
   }
-
   const triggerSaveAll = e => {
     iframe.src = BASE_URL + '/all/?siteId=123'
   }
