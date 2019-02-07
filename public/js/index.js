@@ -25,12 +25,14 @@
   const BASE_URL = 'https://staging-my.shemedia.com/boomerang-edit'
   const buttons = document.querySelectorAll('.element-selector')
   const iframe = document.getElementById('single')
+  const previewPre = document.getElementById('preview')
   const EVENTS = {
     SINGLE_ITEM_POSTED: 'SINGLE_ITEM_POSTED',
     ALL_ITEMS_READY: 'ALL_ITEMS_READY',
     ALL_ITEMS_POSTED: 'ALL_ITEMS_POSTED',
     ALL_ITEMS_FAILED: 'ALL_ITEMS_FAILED',
-    ALL_ITEMS_SAVED: 'ALL_ITEMS_SAVED'
+    ALL_ITEMS_SAVED: 'ALL_ITEMS_SAVED',
+    ALL_ITEMS_PREVIEW: 'ALL_ITEMS_PREVIEW'
   }
 
   const handleSelectorClick = e => {
@@ -53,6 +55,22 @@
     saveState([], LOCAL_STORAGE_KEY)
   }
 
+  const onPreview = payload => {
+    const { formValue, formState } = payload
+
+    if (!formState.isValid) {
+      // handle this by alerting user that the form isn't valid
+      // other than through the iframe UI where errors 
+      // are visualized. Or not :p
+      return
+    }
+
+    // do the preview magic here
+    previewPre.innerText = JSON.stringify(formValue, null, 2)
+
+    return saveState(formValue, LOCAL_STORAGE_KEY)
+  }
+
   const receiveMessage = e => {
     const { data } = e
     const { type, payload } = data
@@ -72,6 +90,8 @@
         return alert(payload.message)
       case EVENTS.ALL_ITEMS_SAVED:
         return onSaveComplete()
+      case EVENTS.ALL_ITEMS_PREVIEW:
+        return onPreview(payload)
     }
   }
 
