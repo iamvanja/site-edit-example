@@ -73,25 +73,27 @@
 
   const receiveMessage = e => {
     const { data } = e
-    const { type, payload } = data
+    // e.data.type being 'SKMBoomerangMessageRequest' is irrelevant for this implementation
+    const { method, data: receivedData } = data
 
-    switch (type) {
+    switch (method) {
       case EVENTS.SINGLE_ITEM_POSTED:
         return saveState(
-          (loadState(LOCAL_STORAGE_KEY) || []).concat(payload),
+          (loadState(LOCAL_STORAGE_KEY) || []).concat(receivedData),
           LOCAL_STORAGE_KEY
         )
       case EVENTS.ALL_ITEMS_READY:
         return iframe.contentWindow.postMessage({
-          type: EVENTS.ALL_ITEMS_POSTED,
-          payload: loadState(LOCAL_STORAGE_KEY) || []
+          type: 'SKMBoomerangMessageRequest',
+          method: EVENTS.ALL_ITEMS_POSTED,
+          data: loadState(LOCAL_STORAGE_KEY) || []
         }, '*')
       case EVENTS.ALL_ITEMS_FAILED:
-        return alert(payload.message)
+        return alert(receivedData.message)
       case EVENTS.ALL_ITEMS_SAVED:
         return onSaveComplete()
       case EVENTS.ALL_ITEMS_PREVIEW:
-        return onPreview(payload)
+        return onPreview(receivedData)
     }
   }
 
