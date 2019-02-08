@@ -21,7 +21,7 @@
   }
 
   const LOCAL_STORAGE_KEY = 'boomerangInjectedAds'
-  const BASE_URL = 'http://127.0.0.1:3000/boomerang-edit'
+  // const BASE_URL = 'http://127.0.0.1:3000/boomerang-edit'
   const BASE_URL = 'https://staging-my.shemedia.com/boomerang-edit'
   const buttons = document.querySelectorAll('.element-selector')
   const iframe = document.getElementById('single')
