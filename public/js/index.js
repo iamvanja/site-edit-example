@@ -27,12 +27,12 @@
   const iframe = document.getElementById('single')
   const previewPre = document.getElementById('preview')
   const EVENTS = {
-    SINGLE_ITEM_POSTED: 'SINGLE_ITEM_POSTED',
-    ALL_ITEMS_READY: 'ALL_ITEMS_READY',
-    ALL_ITEMS_POSTED: 'ALL_ITEMS_POSTED',
-    ALL_ITEMS_FAILED: 'ALL_ITEMS_FAILED',
-    ALL_ITEMS_SAVED: 'ALL_ITEMS_SAVED',
-    ALL_ITEMS_PREVIEW: 'ALL_ITEMS_PREVIEW'
+    INJECTION_RULES_SINGLE_POSTED: 'INJECTION_RULES_SINGLE_POSTED',
+    INJECTION_RULES_ALL_READY: 'INJECTION_RULES_ALL_READY',
+    INJECTION_RULES_ALL_POSTED: 'INJECTION_RULES_ALL_POSTED',
+    INJECTION_RULES_ALL_FAILED: 'INJECTION_RULES_ALL_FAILED',
+    INJECTION_RULES_ALL_SAVED: 'INJECTION_RULES_ALL_SAVED',
+    INJECTION_RULES_ALL_PREVIEW: 'INJECTION_RULES_ALL_PREVIEW'
   }
 
   const handleSelectorClick = e => {
@@ -77,22 +77,22 @@
     const { method, data: receivedData } = data
 
     switch (method) {
-      case EVENTS.SINGLE_ITEM_POSTED:
+      case EVENTS.INJECTION_RULES_SINGLE_POSTED:
         return saveState(
           (loadState(LOCAL_STORAGE_KEY) || []).concat(receivedData),
           LOCAL_STORAGE_KEY
         )
-      case EVENTS.ALL_ITEMS_READY:
+      case EVENTS.INJECTION_RULES_ALL_READY:
         return iframe.contentWindow.postMessage({
           type: 'SKMBoomerangMessageRequest',
-          method: EVENTS.ALL_ITEMS_POSTED,
+          method: EVENTS.INJECTION_RULES_ALL_POSTED,
           data: loadState(LOCAL_STORAGE_KEY) || []
         }, '*')
-      case EVENTS.ALL_ITEMS_FAILED:
+      case EVENTS.INJECTION_RULES_ALL_FAILED:
         return alert(receivedData.message)
-      case EVENTS.ALL_ITEMS_SAVED:
+      case EVENTS.INJECTION_RULES_ALL_SAVED:
         return onSaveComplete()
-      case EVENTS.ALL_ITEMS_PREVIEW:
+      case EVENTS.INJECTION_RULES_ALL_PREVIEW:
         return onPreview(receivedData)
     }
   }
