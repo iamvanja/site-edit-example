@@ -21,7 +21,7 @@
   }
 
   const LOCAL_STORAGE_KEY = 'boomerangInjectedAds'
-  // const BASE_URL = 'http://127.0.0.1:3000/boomerang-edit'
+  const BASE_URL = 'http://127.0.0.1:3000/boomerang-edit'
   const BASE_URL = 'https://staging-my.shemedia.com/boomerang-edit'
   const buttons = document.querySelectorAll('.element-selector')
   const iframe = document.getElementById('single')
@@ -56,19 +56,9 @@
   }
 
   const onPreview = payload => {
-    const { formValue, formState } = payload
+    previewPre.innerText = JSON.stringify(payload, null, 2)
 
-    if (!formState.isValid) {
-      // handle this by alerting user that the form isn't valid
-      // other than through the iframe UI where errors 
-      // are visualized. Or not :p
-      return
-    }
-
-    // do the preview magic here
-    previewPre.innerText = JSON.stringify(formValue, null, 2)
-
-    return saveState(formValue, LOCAL_STORAGE_KEY)
+    return saveState(payload, LOCAL_STORAGE_KEY)
   }
 
   const receiveMessage = e => {
